@@ -5,17 +5,27 @@ import pro.sky.maps.data.Employee;
 import pro.sky.maps.exception.EmployeeNotFoundException;
 import pro.sky.maps.exception.EmployeeStorageOverflowException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    List<Employee> employees = new ArrayList<Employee>();
+        Map<Integer, Employee> employeeMap=new HashMap<>();
+        Integer nextId=0;
+
+    private Integer getNextId() {
+        Integer result=nextId;
+        nextId=nextId+1;
+        return result;
+    }
 
     public Employee addEmployee(String firstName, String lastName) {
         validateData(firstName, lastName);
-        Employee newEmployees=new Employee(firstName,lastName);
-        employees.add(newEmployees);
+        if (employeeMap.containsValue(new Employee(firstName, lastName))) {
+            throw new EmployeeStorageOverflowException();
+        }
+        Employee newEmployees=employeeMap.put(getNextId(),new Employee(firstName, lastName));
         return newEmployees;
     }
 
@@ -25,10 +35,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    public static <Integer, Employee> Integer getKeyByValue(Map<Integer, Employee> map, Employee value) {
+        for (Map.Entry<Integer, Employee> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
     public Employee removeEmployees(String firstName, String lastName){
         Employee employeeRemove=new Employee(firstName, lastName);
-        if (employees.contains(employeeRemove)) {
-            employees.remove(employeeRemove);
+        if (employeeMap.containsValue(employeeRemove)) {
+            employeeMap.remove(getKeyByValue(employeeMap,employeeRemove));
             return employeeRemove;
         }
             throw new EmployeeNotFoundException();
@@ -37,13 +56,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee employee(String firstName, String lastName){
         Employee employeeFind=new Employee(firstName, lastName);
         validateData(firstName, lastName);
-        if (employees.contains(employeeFind)) {
+        if (employeeMap.containsValue(employeeFind)) {
             return employeeFind;
         }
         throw new EmployeeNotFoundException();
         }
 
-    public List<Employee> allEmployee() {
-        return new ArrayList<>(employees);
+    public Map<Integer, Employee> allEmployee() {
+        return new HashMap<>(employeeMap);
     }
 }
