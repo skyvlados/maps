@@ -5,28 +5,20 @@ import pro.sky.maps.data.Employee;
 import pro.sky.maps.exception.EmployeeNotFoundException;
 import pro.sky.maps.exception.EmployeeStorageOverflowException;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-        Map<Integer, Employee> employeeMap=new HashMap<>();
-        Integer nextId=0;
-
-    private Integer getNextId() {
-        Integer result=nextId;
-        nextId=nextId+1;
-        return result;
-    }
+        Map<Employee, Employee> employeeMap=new HashMap<>();
 
     public Employee addEmployee(String firstName, String lastName) {
         validateData(firstName, lastName);
-        if (employeeMap.containsValue(new Employee(firstName, lastName))) {
+        Employee newEmployee=new Employee(firstName,lastName);
+        if (employeeMap.containsKey(newEmployee)) {
             throw new EmployeeStorageOverflowException();
         }
-        Employee newEmployees=employeeMap.put(getNextId(),new Employee(firstName, lastName));
-        return newEmployees;
+        employeeMap.put(newEmployee,newEmployee);
+        return newEmployee;
     }
 
     private void validateData(String firstName, String lastName) {
@@ -35,34 +27,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    public static <Integer, Employee> Integer getKeyByValue(Map<Integer, Employee> map, Employee value) {
-        for (Map.Entry<Integer, Employee> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
     public Employee removeEmployees(String firstName, String lastName){
         Employee employeeRemove=new Employee(firstName, lastName);
-        if (employeeMap.containsValue(employeeRemove)) {
-            employeeMap.remove(getKeyByValue(employeeMap,employeeRemove));
+        if (employeeMap.containsKey(employeeRemove)) {
+            employeeMap.remove(employeeRemove);
             return employeeRemove;
         }
             throw new EmployeeNotFoundException();
     }
 
-    public Employee employee(String firstName, String lastName){
+    public Employee findEmployee(String firstName, String lastName){
         Employee employeeFind=new Employee(firstName, lastName);
         validateData(firstName, lastName);
-        if (employeeMap.containsValue(employeeFind)) {
+        if (employeeMap.containsKey(employeeFind)) {
             return employeeFind;
         }
         throw new EmployeeNotFoundException();
         }
 
-    public Map<Integer, Employee> allEmployee() {
-        return new HashMap<>(employeeMap);
+    public List<Employee> showAllEmployee() {
+        return new ArrayList<>(Collections.unmodifiableCollection(employeeMap.values()));
     }
 }
