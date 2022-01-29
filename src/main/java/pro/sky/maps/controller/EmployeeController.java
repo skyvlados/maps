@@ -35,8 +35,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/all")
-    public List<Employee> showAllEmployee() {
-        return employeeServiceImpl.showAllEmployee();
+    public List<Employee> findAllEmployee() {
+        return employeeServiceImpl.findAllEmployee();
     }
 
 }

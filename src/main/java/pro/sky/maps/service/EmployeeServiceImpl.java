@@ -30,8 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee removeEmployees(String firstName, String lastName){
         Employee employeeRemove=new Employee(firstName, lastName);
         if (employeeMap.containsKey(employeeRemove)) {
-            employeeMap.remove(employeeRemove);
-            return employeeRemove;
+            return employeeMap.remove(employeeRemove);
         }
             throw new EmployeeNotFoundException();
     }
@@ -45,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         throw new EmployeeNotFoundException();
         }
 
-    public List<Employee> showAllEmployee() {
-        return new ArrayList<>(Collections.unmodifiableCollection(employeeMap.values()));
+    public List<Employee> findAllEmployee() {
+        return new ArrayList<>(employeeMap.values());
     }
 }
