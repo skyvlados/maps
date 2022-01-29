@@ -8,7 +8,6 @@ import pro.sky.maps.data.Employee;
 import pro.sky.maps.service.EmployeeServiceImpl;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/employee")
@@ -20,18 +19,21 @@ public class EmployeeController {
         this.employeeServiceImpl = employeeServiceImpl;
     }
     @GetMapping("/find")
-    public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeServiceImpl.findEmployee(firstName,lastName);
+    public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName,
+                                 @RequestParam String department,@RequestParam int salary) {
+        return employeeServiceImpl.findEmployee(firstName,lastName,department,salary);
     }
 
     @GetMapping("/add")
-    public Employee addEmployee(@RequestParam String firstName,@RequestParam String lastName) {
-        return employeeServiceImpl.addEmployee(firstName, lastName);
+    public Employee addEmployee(@RequestParam String firstName,@RequestParam String lastName,
+                                @RequestParam String department,@RequestParam int salary) {
+        return employeeServiceImpl.addEmployee(firstName,lastName,department,salary);
     }
 
     @GetMapping("/remove")
-    public Employee removeEmployee(@RequestParam String firstName,@RequestParam String lastName) {
-        return employeeServiceImpl.removeEmployees(firstName, lastName);
+    public Employee removeEmployee(@RequestParam String firstName,@RequestParam String lastName,
+                                   @RequestParam String department,@RequestParam int salary) {
+        return employeeServiceImpl.removeEmployees(firstName,lastName,department,salary);
     }
 
     @GetMapping("/all")
