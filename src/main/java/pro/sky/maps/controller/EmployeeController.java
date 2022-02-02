@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.sky.maps.data.Employee;
 import pro.sky.maps.service.EmployeeServiceImpl;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/all")
-    public Set<Employee> findAllEmployee() {
+    public Collection<Employee> findAllEmployee() {
         return employeeServiceImpl.findAllEmployee();
     }
 

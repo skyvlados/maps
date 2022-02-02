@@ -46,7 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
     @Override
-    public Set<Employee> findAllEmployee() {
+    public Collection<Employee> findAllEmployee() {
         return new HashSet<>(employeeMap.values()) ;
     }
 
