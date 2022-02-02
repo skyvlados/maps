@@ -2,12 +2,11 @@ package pro.sky.maps.service;
 
 import pro.sky.maps.data.Employee;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public interface EmployeeService {
-    public Employee addEmployee(String firstName, String lastName);
-    public Employee removeEmployees(String firstName, String lastName);
-    public Employee findEmployee(String firstName, String lastName);
-    public List<Employee> findAllEmployee();
+    Employee addEmployee(String firstName, String lastName, String department, int salary);
+    Employee removeEmployees(String firstName, String lastName, String department, int salary);
+    Employee findEmployee(String firstName, String lastName, String department, int salary);
+    Collection<Employee> findAllEmployee();
 }
