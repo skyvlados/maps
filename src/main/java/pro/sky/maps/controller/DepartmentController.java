@@ -22,12 +22,12 @@ public class DepartmentController {
 
     @GetMapping("/max-salary")
     public Employee findMaxSalary(@RequestParam String department) {
-        return departmentService.findMaxSalary(department).orElseThrow();
+        return departmentService.findMaxSalary(department);
     }
 
     @GetMapping("/min-salary")
     public Employee findMinSalary(@RequestParam String department) {
-        return departmentService.findMinSalary(department).orElseThrow();
+        return departmentService.findMinSalary(department);
     }
 
     @GetMapping("/all")

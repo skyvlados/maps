@@ -8,9 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface EmployeeService {
-    public Employee addEmployee(String firstName, String lastName,String department, int salary);
-    public Employee removeEmployees(String firstName, String lastName,String department, int salary);
-    public Employee findEmployee(String firstName, String lastName,String department, int salary);
-    public List<Employee> findAllEmployee();
-    public Set<Employee> getEmployees();
+    Employee addEmployee(String firstName, String lastName, String department, int salary);
+    Employee removeEmployees(String firstName, String lastName, String department, int salary);
+    Employee findEmployee(String firstName, String lastName, String department, int salary);
+    Set<Employee> findAllEmployee();
 }

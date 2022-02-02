@@ -8,6 +8,7 @@ import pro.sky.maps.data.Employee;
 import pro.sky.maps.service.EmployeeServiceImpl;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/employee")
@@ -37,7 +38,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/all")
-    public List<Employee> findAllEmployee() {
+    public Set<Employee> findAllEmployee() {
         return employeeServiceImpl.findAllEmployee();
     }
 

@@ -44,13 +44,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         throw new EmployeeNotFoundException();
         }
-    @Override
-    public List<Employee> findAllEmployee() {
-        return new ArrayList<>(employeeMap.values());
-    }
 
     @Override
-    public Set<Employee> getEmployees() {
+    public Set<Employee> findAllEmployee() {
         return new HashSet<>(employeeMap.values()) ;
     }
+
 }
