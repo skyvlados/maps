@@ -3,7 +3,7 @@ package pro.sky.maps.service;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.maps.data.Employee;
-import pro.sky.maps.exception.EmployeeContainsForbiddenSymbol;
+import pro.sky.maps.exception.EmployeeContainsForbiddenSymbolException;
 import pro.sky.maps.exception.EmployeeNotFoundException;
 import pro.sky.maps.exception.EmployeeStorageOverflowException;
 
@@ -15,12 +15,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addEmployee(String firstName, String lastName, String department,int salary) {
-        checkFirstNameAndSecondName(firstName, lastName);
-        String UpperFirstSymbolFirstName=transformationFirstSymbol(firstName);
-        String UpperFirstSymbolSecondName=transformationFirstSymbol(lastName);
-        transformationFirstSymbol(lastName);
         validateData(firstName, lastName);
-        Employee newEmployee=new Employee(UpperFirstSymbolFirstName,UpperFirstSymbolSecondName, department, salary);
+        checkFirstNameAndSecondName(firstName, lastName);
+        String upperFirstSymbolFirstName=capitalize(firstName);
+        String upperFirstSymbolSecondName=capitalize(lastName);
+        capitalize(lastName);
+        Employee newEmployee=new Employee(upperFirstSymbolFirstName,upperFirstSymbolSecondName, department, salary);
         if (employeeMap.containsKey(newEmployee)) {
             throw new EmployeeStorageOverflowException();
         }
@@ -30,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     public void checkFirstNameAndSecondName(String firstName, String secondName) {
         if (!StringUtils.isAlpha(firstName) || !StringUtils.isAlpha(secondName)) {
-            throw new EmployeeContainsForbiddenSymbol();
+            throw new EmployeeContainsForbiddenSymbolException();
         }
     }
 
@@ -40,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    public static String transformationFirstSymbol(String name) {
+    public static String capitalize(String name) {
         return StringUtils.capitalize(name);
     }
     @Override
