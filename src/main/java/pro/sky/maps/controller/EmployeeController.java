@@ -8,8 +8,6 @@ import pro.sky.maps.data.Employee;
 import pro.sky.maps.service.EmployeeServiceImpl;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/employee")

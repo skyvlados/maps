@@ -1,7 +1,9 @@
 package pro.sky.maps.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.maps.data.Employee;
+import pro.sky.maps.exception.EmployeeContainsForbiddenSymbolException;
 import pro.sky.maps.exception.EmployeeNotFoundException;
 import pro.sky.maps.exception.EmployeeStorageOverflowException;
 
@@ -14,7 +16,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee addEmployee(String firstName, String lastName, String department,int salary) {
         validateData(firstName, lastName);
-        Employee newEmployee=new Employee(firstName,lastName, department, salary);
+        checkFirstNameAndSecondName(firstName, lastName);
+        String upperFirstSymbolFirstName=capitalize(firstName);
+        String upperFirstSymbolSecondName=capitalize(lastName);
+        capitalize(lastName);
+        Employee newEmployee=new Employee(upperFirstSymbolFirstName,upperFirstSymbolSecondName, department, salary);
         if (employeeMap.containsKey(newEmployee)) {
             throw new EmployeeStorageOverflowException();
         }
@@ -22,10 +28,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         return newEmployee;
     }
 
+    public void checkFirstNameAndSecondName(String firstName, String secondName) {
+        if (!StringUtils.isAlpha(firstName) || !StringUtils.isAlpha(secondName)) {
+            throw new EmployeeContainsForbiddenSymbolException();
+        }
+    }
+
     private void validateData(String firstName, String lastName) {
         if (firstName == "" && lastName == "") {
             throw new EmployeeStorageOverflowException();
         }
+    }
+
+    public static String capitalize(String name) {
+        return StringUtils.capitalize(name);
     }
     @Override
     public Employee removeEmployees(String firstName, String lastName, String department,int salary){

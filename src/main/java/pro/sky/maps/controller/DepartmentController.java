@@ -8,7 +8,6 @@ import pro.sky.maps.data.Employee;
 import pro.sky.maps.service.DepartmentService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/departments")
